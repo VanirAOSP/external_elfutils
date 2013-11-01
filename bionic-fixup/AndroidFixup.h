@@ -83,6 +83,4 @@ static inline char *stpcpy(char *dst, const char *src)
 /* forward declarations */
 /* char * dgettext (const char * domainname, const char * msgid); */
 
-ssize_t getline(char **lineptr, size_t *n, FILE *stream);
-
 #endif /* ANDROID_FIXUP_H */
