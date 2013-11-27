@@ -196,6 +196,9 @@ static bool default_object_note (const char *name, uint32_t type,
 				 uint32_t descsz, const char *desc);
 static bool default_debugscn_p (const char *name);
 static bool default_copy_reloc_p (int reloc);
+
+/* ANDROID_CHANGE_BEGIN */
+#if !defined(__APPLE__) && !defined(__clang__)
 static bool default_none_reloc_p (int reloc);
 static bool default_relative_reloc_p (int reloc);
 static bool default_check_special_symbol (Elf *elf, GElf_Ehdr *ehdr,
@@ -429,8 +432,7 @@ ebl_openbackend (elf)
 
 /* Find backend without underlying ELF file.  */
 Ebl *
-ebl_openbackend_machine (machine)
-     GElf_Half machine;
+ebl_openbackend_machine (GElf_Half machine)
 {
   return openbackend (NULL, NULL, machine);
 }
@@ -687,6 +689,11 @@ default_copy_reloc_p (int reloc __attribute__ ((unused)))
 {
   return false;
 }
+<<<<<<< HEAD:0.153/libebl/eblopenbackend.c
+=======
+/* ANDROID_CHANGE_BEGIN */
+#if !defined(__APPLE__) && !defined(__clang__)
+>>>>>>> linaro_android_4.4:libebl/eblopenbackend.c
 strong_alias (default_copy_reloc_p, default_none_reloc_p)
 strong_alias (default_copy_reloc_p, default_relative_reloc_p)
 
