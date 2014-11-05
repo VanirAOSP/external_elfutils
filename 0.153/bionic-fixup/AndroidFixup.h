@@ -17,7 +17,34 @@
 #ifndef ANDROID_FIXUP_H
 #define ANDROID_FIXUP_H
 
-#include <libgen.h> // for basename
+#include <stdio.h>
+#include <libgen.h>     // for basename
+
+//#define _OFF_T_DEFINED_
+
+//#define off_t           loff_t
+
+#ifndef MAX
+#define MAX(x,y)        ((x) > (y) ? (x) : (y))
+#endif
+
+#ifndef MIN
+#define MIN(x,y)        ((x) < (y) ? (x) : (y))
+#endif
+
+#ifndef powerof2
+#define powerof2(x)     (((x - 1) & (x)) == 0)
+#endif
+
+/* workaround for canonicalize_file_name */
+#define canonicalize_file_name(path) realpath(path, NULL)
+
+/* workaround for open64 */
+#define open64(path, flags)     open(path, ((flags) | O_LARGEFILE))
+
+/* no internalization */
+#define gettext(x)      (x)
+#define dgettext(x, y)	(y)
 
 /* _mempcpy and mempcpy */
 #ifndef __mempcpy
@@ -44,7 +71,16 @@ static inline void *rawmemchr(const void *s, int c)
     }
 }
 
-/* workaround for canonicalize_file_name */
-#define canonicalize_file_name(path) realpath(path, NULL)
+/* workaround for stpcpy */
+static inline char *stpcpy(char *dst, const char *src)
+{
+    while (*src) {
+        *dst++ = *src++;
+    }
+    return dst;
+}
+
+/* forward declarations */
+/* char * dgettext (const char * domainname, const char * msgid); */
 
 #endif /* ANDROID_FIXUP_H */
